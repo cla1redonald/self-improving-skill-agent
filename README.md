@@ -4,6 +4,10 @@
 
 An agent that improves other agents' instructions. Point it at a Claude Agent Skill's `SKILL.md`, a deterministic eval suite, and a target pass rate, and it runs the whole loop itself inside a Managed Agents sandbox: execute the eval, diagnose the failure pattern, apply one targeted edit, re-run, keep the edit or revert it, repeat until an independent grader confirms the target is met or the round budget runs out. Every skill tested here started at a known baseline and ended with a measured, verifiable result: real API calls, real costs, real diffs.
 
+![Terminal capture of a live run: the gameplan skill going from 86% to 100% in one round](docs/session-capture.png)
+
+*A styled rendering built from the actual captured output of a real session (`sesn_01MQzxF1SyiLSZjeR5dnZCHP`), condensed for length: repeated tool-call lines and the full baseline eval report are collapsed into single summary lines, everything else is verbatim.*
+
 ## Quick start
 
 There's no build step. This is a set of Python scripts that call the Anthropic API; nothing runs locally beyond that.
@@ -49,6 +53,8 @@ skills/<name>/eval/results/       Local test output and real session artifacts
 ## Why a real API key, not a CLI session token
 
 The self-improvement loop needs a real, long-lived API key: the agent's own sandbox has to call `api.anthropic.com` mid-session through a vault credential, and a vault credential holds a static secret, not something that expires in hours the way a CLI OAuth session does. Create one in the [Console](https://platform.claude.com/settings/keys).
+
+Managed Agents itself is currently a beta API, but it's enabled by default on every API account; no waitlist or access request needed for anything this project uses. (A couple of adjacent Managed Agents features, MCP tunnels and "dreaming," are a separate, more limited research preview that does require requesting access; this project doesn't touch either one.) The SDK adds the required `managed-agents-2026-04-01` beta header automatically, nothing to configure.
 
 `setup.py` refuses to run a second time once `ids.json` exists, so `agent.yaml` changes after the first run go through `agents.update()` instead of creating a second, orphaned agent.
 

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Session capture</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg-page: #0c0b0a;
+    --bg-window: #151210;
+    --bg-titlebar: #1d1a17;
+    --border: #2c2723;
+    --text: #e9e2d8;
+    --text-muted: #948b80;
+    --accent: #e08560;
+    --accent-dim: #b4694c;
+    --ok: #93ad78;
+    --dot-red: #e0605a;
+    --dot-yellow: #e0b25a;
+    --dot-green: #93ad78;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-page);
+    display: flex;
+    justify-content: center;
+    padding: 40px 32px;
+  }
+  .window {
+    width: 860px;
+    background: var(--bg-window);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+  }
+  .titlebar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--bg-titlebar);
+    border-bottom: 1px solid var(--border);
+  }
+  .dots { display: flex; gap: 8px; flex-shrink: 0; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.red { background: var(--dot-red); }
+  .dot.yellow { background: var(--dot-yellow); }
+  .dot.green { background: var(--dot-green); }
+  .titlebar-label {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    letter-spacing: 0.01em;
+  }
+  .body {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.68;
+    color: var(--text);
+    padding: 22px 26px 26px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .prompt { color: var(--accent); }
+  .cmd { color: var(--text); }
+  .muted { color: var(--text-muted); }
+  .tool { color: var(--text-muted); }
+  .accent { color: var(--accent); font-weight: 500; }
+  .ok { color: var(--ok); font-weight: 500; }
+  .link { color: var(--accent-dim); text-decoration: underline; }
+  .gap { height: 4px; }
+  .elide {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <div class="dots">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      <div class="titlebar-label">self-improving-skill-agent — python3 scripts/launch_session.py --skill gameplan</div>
+    </div>
+    <div class="body"><span class="prompt">$</span> <span class="cmd">python scripts/launch_session.py --skill gameplan --target-pass-rate 0.9</span>
+<span class="muted">Uploading skill + eval files for 'gameplan'...</span>
+<span class="muted">Creating session...</span>
+session_id = <span class="accent">sesn_01MQzxF1SyiLSZjeR5dnZCHP</span> (status: running)
+Watch live: <span class="link">https://platform.claude.com/workspaces/.../sessions/sesn_01MQzxF1SyiLSZjeR5dnZCHP</span>
+<div class="gap"></div>
+<span class="tool">[tool: bash]</span>
+<span class="tool">[tool: bash]</span>
+<span class="tool">[tool: bash]</span>
+<span class="elide">  ... baseline eval run: 6/7 cases passed (86%) ...</span>
+Now let's check API key availability and run baseline (round 0).
+<span class="tool">[tool: bash]</span>
+<span class="tool">[tool: bash]</span>
+<span class="tool">[tool: read]</span>
+<span class="tool">[tool: edit]</span>
+<span class="tool">[tool: bash]</span>
+<span class="ok">100% pass rate achieved in round 1, exceeding the 90% target.</span> Let's log this and finalize deliverables.
+<span class="tool">[tool: write]</span>
+<span class="tool">[tool: bash]</span>
+<div class="gap"></div>
+[outcome iteration 0: <span class="ok">satisfied</span>] An independent grader found all criteria met.
+<div class="gap"></div>
+<span class="muted">--- idle ---</span>
+<div class="gap"></div>
+<span class="muted">Downloading output files to skills/gameplan/eval/results/session_outputs...</span>
+<span class="muted">  saved changelog.md (2353 bytes)</span>
+<span class="muted">  saved SKILL.md (4247 bytes)</span>
+<span class="muted">  saved round_0.json (68084 bytes)</span>
+<span class="muted">  saved round_1_after.json (48668 bytes)</span>
+<div class="gap"></div>
+Measured session cost: <span class="accent">$0.31 USD</span> (60 input + 11573 output tokens, list rates).</div>
+  </div>
+</body>
+</html>
