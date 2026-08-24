@@ -6,7 +6,7 @@ An agent that improves other agents' instructions. Point it at a Claude Agent Sk
 
 ![Terminal capture of a live run: the gameplan skill going from 86% to 100% in one round](docs/session-capture.png)
 
-*A styled rendering built from the actual captured output of a real session (`sesn_01MQzxF1SyiLSZjeR5dnZCHP`), condensed for length: repeated tool-call lines and the full baseline eval report are collapsed into single summary lines, everything else is verbatim.*
+*A styled rendering, not a raw screenshot, but every timestamp, duration, and figure is pulled directly from that session's real event log and usage stats via the API (`sesn_01MQzxF1SyiLSZjeR5dnZCHP`): the baseline eval genuinely took 2m 47s across 7 live API calls, the fix genuinely landed in one round, and the independent grader genuinely took 78 seconds to verify it. Six repeated exploration steps and three internal thinking/tool cycles are condensed into single summary lines (marked in italics); everything else is verbatim or a direct read of the session's own numbers.*
 
 ## Quick start
 
