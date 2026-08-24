@@ -1,0 +1,104 @@
+[
+  {
+    "id": "dark_mode_toggle",
+    "input": "Add dark mode toggle to settings page (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "has_constraints",
+      "has_out_of_scope",
+      "no_vague_criteria"
+    ]
+  },
+  {
+    "id": "csv_export",
+    "input": "Add CSV export to the reports page so users can download their monthly usage data (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "has_constraints",
+      "has_out_of_scope",
+      "no_vague_criteria"
+    ]
+  },
+  {
+    "id": "rate_limiting",
+    "input": "Add rate limiting to the public API to prevent abuse (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "has_constraints",
+      "has_out_of_scope",
+      "no_vague_criteria"
+    ]
+  },
+  {
+    "id": "email_notifications",
+    "input": "Send an email notification when a user's subscription is about to expire (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "has_constraints",
+      "has_out_of_scope",
+      "no_vague_criteria"
+    ]
+  },
+  {
+    "id": "search_autocomplete",
+    "input": "Add autocomplete suggestions to the product search bar (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "has_constraints",
+      "has_out_of_scope",
+      "no_vague_criteria"
+    ]
+  },
+  {
+    "id": "bulk_delete",
+    "input": "Let admins bulk-delete inactive user accounts older than 2 years (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "has_constraints",
+      "has_out_of_scope",
+      "no_vague_criteria"
+    ]
+  },
+  {
+    "id": "vague_underspecified",
+    "input": "Make the app better for mobile users (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "no_vague_criteria"
+    ]
+  },
+  {
+    "id": "two_factor_auth",
+    "input": "Add two-factor authentication as an optional security setting for user accounts (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "rules": [
+      "has_what",
+      "has_why",
+      "has_success_criteria",
+      "has_checkable_items",
+      "has_constraints",
+      "has_out_of_scope",
+      "no_vague_criteria"
+    ]
+  }
+]

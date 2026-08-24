@@ -1,0 +1,326 @@
+{
+  "skill_path": "skills/spec/SKILL.md",
+  "model": "claude-haiku-4-5",
+  "pass_rate": 1.0,
+  "passed": 8,
+  "total": 8,
+  "usage": {
+    "input_tokens": 5641,
+    "output_tokens": 5214,
+    "estimated_cost_usd": 0.031711
+  },
+  "cases": [
+    {
+      "id": "dark_mode_toggle",
+      "input": "Add dark mode toggle to settings page (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: Dark Mode Toggle\n\n## What\nAdd a dark mode toggle control to the settings page that allows users to switch between light and dark color themes. The toggle will persist the user's preference to local storage (or equivalent) and apply the selected theme immediately across the application.\n\n## Why\nDark mode reduces eye strain in low-light environments and aligns with modern UX expectations. Users increasingly expect theme preferences in settings, and this improves accessibility for users with light sensitivity.\n\n## Success Criteria\n- [ ] Toggle switch appears in the settings page UI\n- [ ] Clicking the toggle switches the application theme between light and dark\n- [ ] Theme preference persists across page refreshes and sessions\n- [ ] Dark mode theme is visually complete (all UI elements properly styled)\n- [ ] No console errors or broken layouts in either theme\n\n## Constraints\n- **No file system access in this environment** \u2014 spec describes expected implementation approach\n- Theme preference stored client-side (local storage or equivalent browser storage)\n- Must support existing component library and styling approach\n- Theme switching should be instant (no loading state needed)\n\n## Out of Scope\n- Server-side theme preference storage (auth integration)\n- Automatic theme detection based on system settings\n- Multiple theme options beyond light/dark\n- Scheduled theme switching (e.g., sunset-based)\n\n---\n\n## Next Steps\n\n**Ready to proceed?** This spec is approved for:\n- `/gameplan` \u2014 to map implementation tasks\n- `/build-feature` \u2014 to generate code\n- `/test` \u2014 to write test coverage\n\n**Assumptions made (state any corrections):**\n- Toggle is a simple on/off switch (not a multi-option selector)\n- Theme applies to entire app, not just settings page\n- Existing CSS/styling framework supports theming (e.g., CSS variables or theme classes)",
+      "usage": {
+        "input_tokens": 701,
+        "output_tokens": 407
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_constraints": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_out_of_scope": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "csv_export",
+      "input": "Add CSV export to the reports page so users can download their monthly usage data (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: CSV Export for Monthly Usage Reports\n\n## What\nUsers can click an \"Export to CSV\" button on the reports page to download their monthly usage data in CSV format. The file contains columns for date, metric type, value, and unit, with one row per data point.\n\n## Why\nUsers need to analyze usage data in spreadsheet applications, perform custom calculations, and maintain records outside the platform. CSV is the standard portable format for this use case.\n\n## Success Criteria\n- [ ] Reports page displays \"Export to CSV\" button (or similar affordance)\n- [ ] Clicking the button triggers a CSV download with filename `usage-report-YYYY-MM.csv`\n- [ ] CSV includes headers: `Date`, `Metric`, `Value`, `Unit`\n- [ ] CSV contains all data points visible in the current month view (no filtering, no sampling)\n- [ ] Downloaded file opens without errors in Excel, Google Sheets, and standard CSV parsers\n- [ ] Special characters (commas, quotes, newlines in data) are properly escaped per RFC 4180\n\n## Constraints\n- **Data scope:** Export only the month currently displayed in the reports view (not multi-month range)\n- **Authentication:** Only authenticated users can export their own data\n- **Performance:** CSV generation must complete in <2 seconds for typical monthly datasets (assume <5000 rows)\n- **No server-side storage:** CSV is streamed directly to browser; no temporary files saved on server\n\n## Out of Scope\n- Multi-month export range selection\n- Custom column selection or filtering before export\n- Scheduled/automated exports or email delivery\n- Data transformation or aggregation (export raw data as-is)\n- PDF or other file format exports (CSV only for this feature)\n\n---\n\n## Assumptions (Test Environment)\nSince file exploration is unavailable, I'm assuming:\n\n1. **Current tech stack:** React/Vue frontend, Node.js or similar backend\n2. **Existing reports structure:** A \"reports page\" component exists displaying monthly usage in a table or chart\n3. **Data availability:** Backend has an API endpoint returning usage metrics (or can be added)\n4. **User context:** Current logged-in user and selected month are available in component state\n5. **CSV library:** A lightweight library like `papaparse`, `csv-stringify`, or built-in string manipulation\n\n---\n\n## Next Steps\n- Run `/gameplan csv-export` to outline implementation tasks\n- Run `/build-feature csv-export` to generate code scaffolding",
+      "usage": {
+        "input_tokens": 709,
+        "output_tokens": 561
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_constraints": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_out_of_scope": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "rate_limiting",
+      "input": "Add rate limiting to the public API to prevent abuse (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: API Rate Limiting\n\n## What\nImplement rate limiting on public API endpoints to prevent abuse. Requests exceeding configured thresholds will receive HTTP 429 (Too Many Requests) responses with retry information. Rate limits will be enforced per client (by API key or IP address) with configurable limits per endpoint or globally.\n\n## Why\n- **Abuse prevention:** Protects infrastructure from DoS and scraping attacks\n- **Fair resource allocation:** Ensures all clients get reasonable access, not dominated by heavy users\n- **Operational stability:** Prevents runaway requests from destabilizing the service\n- **Compliance:** Many API contracts require rate limit headers and predictable behavior\n\n## Success Criteria\n- [ ] Public API endpoints return `429 Too Many Requests` when client exceeds limit\n- [ ] Rate limit headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`) included in all responses\n- [ ] Rate limits are configurable per endpoint (e.g., `/api/users` = 100 req/min, `/api/search` = 20 req/min)\n- [ ] Limits enforce by API key when present; fall back to IP address\n- [ ] Retry-After header provided with 429 responses\n- [ ] Rate limit state persists across requests (uses in-memory cache, Redis, or database \u2014 not per-request)\n- [ ] Admin endpoint exists to check current limit status for a given client\n- [ ] Configuration loaded from environment variables (e.g., `RATE_LIMIT_DEFAULT=1000/hour`, `RATE_LIMIT_SEARCH=20/minute`)\n\n## Constraints\n- Rate limiting must not significantly impact latency (< 5ms overhead per request)\n- Must handle distributed systems (if multiple servers, state must be shared or synchronized)\n- Does not require user authentication to enforce limits (IP-based fallback for unauthenticated requests)\n- Rate limit window is fixed (minute-based or hour-based); no sliding windows initially\n- No persistence of rate limit metrics beyond the current window (no historical analytics)\n\n## Out of Scope\n- User-facing rate limit dashboard or alerting system\n- Dynamic rate limits based on server load or user tier\n- Whitelisting/blacklisting logic (separate concern)\n- Rate limiting internal/private endpoints\n- Geolocation-based limits\n- Historical rate limit analytics or breach notifications\n\n---\n\n## Clarifying Questions (answered with assumptions below):\n\n**Q: Should authenticated requests (with API key) have different limits than unauthenticated (IP-based)?**  \n**A:** *Assumption:* Yes \u2014 API key holders get a higher tier (e.g., 10x baseline). Unauthenticated get strict limits per IP.\n\n**Q: Should rate limits reset on a fixed schedule (e.g., top of the hour) or rolling window?**  \n**A:** *Assumption:* Fixed windows (e.g., requests reset every minute at :00, :01, etc.) for simplicity. More predictable for clients.\n\n**Q: If a client hits the limit, do they see their remaining quota in the response?**  \n**A:** *Assumption:* Yes \u2014 `X-RateLimit-Remaining: 0` and `Retry-After: 45` (seconds until reset).\n\n---\n\n## Next Steps\n\n- Run `/gameplan rate-limiting` to generate implementation tasks\n- Run `/build-feature rate-limiting` to begin development once gameplan is approved\n- Reference: [RateLimit RFC 6585](https://tools.ietf.org/html/rfc6585) and common headers like Stripe or GitHub's pattern",
+      "usage": {
+        "input_tokens": 704,
+        "output_tokens": 843
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_constraints": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_out_of_scope": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "email_notifications",
+      "input": "Send an email notification when a user's subscription is about to expire (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: Subscription Expiration Email Notification\n\n## What\nSend an automated email notification to users 7 days before their subscription expires, informing them of the expiration date and providing a direct link to renew.\n\n## Why\n- **User retention:** Early notice reduces involuntary churn from forgotten expirations\n- **Business continuity:** Gives users time to decide on renewal before service interruption\n- **Reduced support load:** Proactive notification decreases \"why is my service off?\" tickets\n\n## Success Criteria\n- [ ] Email is sent exactly 7 days before subscription expiration date\n- [ ] Email includes: user name, expiration date, renewal link, and account dashboard link\n- [ ] Email is only sent once per subscription (no duplicate sends)\n- [ ] Failed email sends are logged and retried (up to 3 attempts)\n- [ ] User can opt out of notification emails via account preferences\n- [ ] Email templates render correctly (HTML + plaintext fallback)\n- [ ] Notification status tracked in `subscriptions.notification_sent_at` timestamp\n\n## Constraints\n- Must use existing email service (assumed: SendGrid, Mailgun, or in-house SMTP)\n- Batch job must run daily to identify expiring subscriptions within the 7-day window\n- Must not send if subscription was already renewed or cancelled\n- Must respect user's email notification preferences\n- No external dependencies beyond current email provider\n- Timezone handling: use user's account timezone (or UTC if not configured)\n\n## Out of Scope\n- SMS notifications (email only)\n- In-app notifications (separate feature)\n- Custom notification timing per user (always 7 days)\n- Multiple renewal reminders (one per subscription lifecycle)\n- Analytics/open-rate tracking (email provider handles this)\n\n---\n\n## Assumptions (Test Environment)\n\nSince there is no live codebase to inspect, I'm assuming:\n\n1. **Database Schema:**\n   - `subscriptions` table with: `id`, `user_id`, `expires_at`, `status` (active/cancelled/expired), `notification_sent_at`\n   - `users` table with: `id`, `email`, `name`, `timezone`, `email_notifications_enabled`\n\n2. **Email Service:** Configured and ready (provider TBD based on your stack)\n\n3. **Architecture:** Background job runner (Celery, Sidekiq, or cron-based)\n\n4. **Renewal Flow:** Users have a standard renewal URL like `/account/subscriptions/{id}/renew`\n\n---\n\n## Next Steps\n- Run `/gameplan` to create the implementation task breakdown\n- Run `/build-feature` once the plan is approved\n- Ask clarifying questions if your DB schema differs from assumptions above",
+      "usage": {
+        "input_tokens": 707,
+        "output_tokens": 624
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_constraints": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_out_of_scope": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "search_autocomplete",
+      "input": "Add autocomplete suggestions to the product search bar (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: Product Search Autocomplete\n\n## What\nAdd a dropdown menu of autocomplete suggestions below the product search bar that appears as the user types. Suggestions are sourced from product names, categories, and tags in the product catalog. Users can click a suggestion or press Enter to search.\n\n## Why\n- **User friction:** Currently users must type exact product names or remember category labels to find items efficiently.\n- **Discovery:** Autocomplete surfaces related products and categories users may not have thought to search for.\n- **Conversion:** Faster search \u2192 quicker purchases \u2192 higher conversion rate.\n\n## Success Criteria\n- [ ] Dropdown appears after user types \u22652 characters in the search bar\n- [ ] Suggestions include product names, category labels, and popular tags (max 8 suggestions)\n- [ ] Suggestions highlight the matching text portion (e.g., \"**dark** mode toggle\" for query \"dark\")\n- [ ] Clicking a suggestion executes the search; pressing Enter also works\n- [ ] Pressing Escape or clicking outside closes the dropdown\n- [ ] No autocomplete shown for queries with special characters (`*`, `&`, `<`, `>`)\n- [ ] Search performance remains <200ms for typical catalog sizes (10k+ products)\n\n## Constraints\n- Must work on mobile (touch-friendly dropdown, no hover-only interactions)\n- Autocomplete data fetched via existing search API (assume `/api/search/suggestions?q=<query>`)\n- Suggest only from published products (respect visibility/permission flags)\n- Case-insensitive matching\n- No fuzzy matching required; prefix/substring match is acceptable\n\n## Out of Scope\n- Personalized suggestions based on user history (future phase)\n- Search analytics / tracking which suggestions are clicked\n- Autocomplete for advanced filters (price range, date, etc.)\n- Voice input to autocomplete\n- Keyboard navigation (arrow keys) through suggestion list \u2014 can implement later if needed\n\n---\n\n## Clarifying Questions (if needed)\n\n**Q1:** Should the dropdown persist while typing or dismiss on blur?\n**Assumption:** Dismiss on blur/Escape; reappear when user refocuses the input.\n\n**Q2:** How many results from each source (products vs. categories vs. tags)?\n**Assumption:** Return top 3 products + 2 categories + 3 tags, total max 8.\n\n**Q3:** Debounce delay before API call?\n**Assumption:** 300ms to avoid hammering the API while user types rapidly.\n\n---\n\n## Ready to Review\n\nThis spec is ready for your feedback before moving to `/gameplan` or `/build-feature`. Approve, request changes, or ask follow-up questions.",
+      "usage": {
+        "input_tokens": 703,
+        "output_tokens": 612
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_constraints": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_out_of_scope": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "bulk_delete",
+      "input": "Let admins bulk-delete inactive user accounts older than 2 years (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: Bulk-Delete Inactive Users\n\n## What\nAdd an admin-only feature that identifies and bulk-deletes user accounts inactive for 2+ years in a single operation. Includes pre-deletion review with CSV export of accounts to be deleted, and audit logging of the deletion action.\n\n## Why\n- **Compliance:** GDPR/CCPA may require deletion of dormant accounts; regulations vary by jurisdiction\n- **Data hygiene:** Reduces storage costs and security surface area\n- **Admin efficiency:** Manual deletion of hundreds of accounts is error-prone and time-consuming\n\n## Success Criteria\n- [ ] Admin can navigate to a \"Bulk Delete Inactive Users\" page (restricted to admin role)\n- [ ] Page displays count and list (paginated) of users inactive for 2+ years, with last login date\n- [ ] Admin can export the review list as CSV before confirming deletion\n- [ ] Admin can trigger deletion with confirmation dialog showing count and warning\n- [ ] Deletion is atomic: all selected accounts deleted or rollback if any fails\n- [ ] Audit log entry created for bulk deletion event, including: count deleted, timestamp, admin user ID, reason (optional)\n- [ ] Deleted user records are hard-deleted (not soft-deleted) from the database\n- [ ] No orphaned foreign key references remain after deletion\n\n## Constraints\n- **Inactivity definition:** Last login date (or last activity timestamp if login tracking unavailable) older than 2 years from today\n- **Role-gating:** Only users with admin role can access this feature\n- **No undo:** Deletion is permanent; no recovery option\n- **Performance:** Bulk deletion must not lock the user table for >30 seconds in production\n- **Data retention:** Check for legal/compliance requirements in jurisdiction before enabling\n\n## Out of Scope\n- Automated scheduled deletion (this is manual, admin-triggered)\n- Soft-delete or archival (this is hard deletion only)\n- User notification before deletion (compliance varies; admin responsible for notifying users separately if required)\n- Selective filtering by user role, registration date, or custom attributes (only inactivity threshold)\n- Integration with external identity providers or SSO systems\n\n---\n\n## Assumptions (No Codebase Access)\n\nSince this is a test environment with no file access, I'm assuming:\n\n1. **Inactivity timestamp exists** as a `last_login_at` or `last_activity_at` column in the `users` table\n2. **Admin role exists** and is enforced via middleware/decorator on routes\n3. **Audit logging infrastructure** is in place (or we create a simple `audit_logs` table with: `id`, `action`, `admin_id`, `details_json`, `created_at`)\n4. **Database supports transactions** for atomic deletion\n5. **CSV export library** is available (e.g., Python `csv`, Node `csv-writer`)\n6. **Web framework** supports form submission with CSRF protection\n\n---\n\n**Ready for:** `/gameplan` to break this into tasks, or `/build-feature` to implement if framework is specified.",
+      "usage": {
+        "input_tokens": 709,
+        "output_tokens": 702
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_constraints": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_out_of_scope": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "vague_underspecified",
+      "input": "Make the app better for mobile users (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: Mobile Experience Improvements\n\nI notice this is a high-level goal rather than a specific feature. Let me ask **3 clarifying questions** to narrow the scope:\n\n1. **What type of app is this?** (e.g., web app, SPA, content platform, e-commerce)\n2. **Which mobile experience pain points matter most?** (e.g., touch targets too small, forms hard to fill, slow load time, navigation confusing)\n3. **Are we optimizing the existing experience or redesigning a section?**\n\n---\n\n## Since I cannot access the codebase, I'm making these **explicit assumptions**:\n\n- This is a **web app** (responsive design applies)\n- Priority pain points: **touch targets, form usability, navigation, performance**\n- Scope: **Core user flows** (not a full redesign)\n- Target: **iOS/Android browsers, 375px\u2013428px viewport width**\n\n---\n\n## Spec Output (Based on Assumptions)\n\n```markdown\n# Spec: Mobile Experience Improvements\n\n## What\nOptimize the app for mobile users by improving touch interface usability, \nform interaction, and critical path performance on phones (375px\u2013428px viewports).\nThis includes larger touch targets, mobile-optimized navigation, and faster \nfirst meaningful paint.\n\n## Why\nMobile users report friction with small buttons, hard-to-use forms, \nand slow load times. Improving mobile UX increases engagement, \nreduces bounce rate, and improves conversion.\n\n## Success Criteria\n- [ ] All interactive elements \u226548px \u00d7 48px (touch target standard)\n- [ ] Form inputs are mobile-optimized: large text, proper keyboards, auto-fill support\n- [ ] Navigation is single-column, thumb-reachable (bottom/center positioning)\n- [ ] Core user flow (e.g., signup, main action) loads in <3s on 4G\n- [ ] No horizontal scrolling on any page at 375px width\n- [ ] Mobile viewport configured correctly (meta viewport tag present)\n\n## Constraints\n- Must maintain desktop experience (responsive, not separate mobile site)\n- No breaking changes to existing API/backend\n- Must work on iOS 12+ and Android 8+ browsers\n- Existing component system should be used (no new library dependencies)\n\n## Out of Scope\n- Native app development\n- Advanced gesture controls (swipes, long-press)\n- Dark mode (separate feature)\n- Offline functionality\n- Full accessibility audit (covered by separate /a11y spec)\n\n```\n\n---\n\n## Next Steps\n\n**Please clarify:**\n1. What is your app's primary function?\n2. Which mobile issues frustrate your users most right now?\n\nThen I can refine this spec to your actual codebase and ship it.",
+      "usage": {
+        "input_tokens": 701,
+        "output_tokens": 637
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "two_factor_auth",
+      "input": "Add two-factor authentication as an optional security setting for user accounts (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+      "output": "# Spec: Two-Factor Authentication (Optional)\n\n## What\nAdd optional two-factor authentication (2FA) to user accounts. Users can enable 2FA in account settings, authenticate via time-based one-time password (TOTP) apps (Google Authenticator, Authy, Microsoft Authenticator), and manage backup codes for account recovery.\n\n## Why\n- **Security:** Protects accounts from password compromise\n- **User choice:** Optional \u2014 doesn't force friction on users who don't need it\n- **Business:** Reduces account takeover incidents and support burden\n- **Trust:** Signals security maturity to users\n\n## Success Criteria\n- [ ] User can enable 2FA from account settings with setup wizard\n- [ ] Setup wizard generates QR code for TOTP app scanning\n- [ ] System generates 10 backup codes (8 chars each) during setup\n- [ ] User must verify TOTP code before 2FA is marked active\n- [ ] Login flow detects 2FA-enabled accounts and prompts for TOTP code after password validation\n- [ ] User can disable 2FA (with password confirmation)\n- [ ] User can regenerate backup codes from settings\n- [ ] TOTP codes expire after 30 seconds; 6-digit format\n- [ ] Backup codes are single-use and marked consumed after use\n- [ ] Failed TOTP attempts log security event (max 3 attempts, then rate-limit)\n\n## Constraints\n- **No SMS fallback** \u2014 TOTP only (SMS introduces carrier/interception risk)\n- **Stateless TOTP validation** \u2014 must work with distributed systems (no server-side state)\n- **Backward compatible** \u2014 existing users unaffected; 2FA is strictly opt-in\n- **Recovery path** \u2014 backup codes are the only recovery mechanism if device is lost\n- **Session handling** \u2014 require re-authentication to enable/disable 2FA\n- **Assumes existing:** User authentication system, account settings UI, email delivery, database schema for storing secrets\n\n## Out of Scope\n- WebAuthn/FIDO2 hardware keys (future enhancement)\n- SMS as fallback\n- Push notifications to mobile apps\n- Passwordless 2FA (e.g., \"sign in with app approval only\")\n- Admin override of user 2FA\n- 2FA enforcement policies (organization-wide mandates)\n\n---\n\n## Assumptions (Given No Codebase Access)\n\nSince this test environment has no file system:\n\n1. **Secrets storage:** Assumes encrypted column in `users` table for TOTP secret (base32-encoded)\n2. **Backup codes:** Stored as hashed, consumed list in `user_backup_codes` table\n3. **Auth library:** Assumes availability of TOTP library (e.g., `pyotp`, `speakeasy`, `authenticator`)\n4. **Frontend:** Assumes React/Vue/similar with QR code rendering library (e.g., `qrcode.react`)\n5. **Database:** Assumes PostgreSQL or similar with JSON columns for backup code metadata\n6. **Session:** Assumes existing JWT/session-based auth with ability to require re-auth before sensitive actions\n7. **Audit logging:** Assumes existing security event table for logging 2FA enable/disable/verify attempts\n\n---\n\n## Ready for Next Steps\n\nThis spec is ready for:\n- **`/gameplan`** \u2014 to break into engineering tasks\n- **`/build-feature`** \u2014 if you want structured implementation guidance\n- **Design review** \u2014 if you want to refine UX flows first\n\n**Approval needed?** Confirm the spec or request modifications.",
+      "usage": {
+        "input_tokens": 707,
+        "output_tokens": 828
+      },
+      "passed": true,
+      "rules": {
+        "has_what": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_why": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_success_criteria": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_checkable_items": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_constraints": {
+          "passed": true,
+          "detail": ""
+        },
+        "has_out_of_scope": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_vague_criteria": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    }
+  ]
+}

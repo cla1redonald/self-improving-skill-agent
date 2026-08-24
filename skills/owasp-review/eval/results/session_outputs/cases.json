@@ -1,0 +1,38 @@
+[
+  {
+    "id": "idor_broken_access_control",
+    "expected_category": "A01",
+    "input": "Review this code (api/orders.py):\n\n1: @app.get(\"/orders/<order_id>\")\n2: def get_order(order_id):\n3:     order = db.query(\"SELECT * FROM orders WHERE id = ?\", order_id)\n4:     return jsonify(order)\n\nThere is no session or ownership check anywhere in this handler — any authenticated user can pass any order_id.",
+    "rules": ["flags_expected_category", "has_all_ten_rows", "has_findings_section", "has_verdict_line"]
+  },
+  {
+    "id": "sql_injection",
+    "expected_category": "A03",
+    "input": "Review this code (api/search.py):\n\n1: def search_users(name):\n2:     query = \"SELECT * FROM users WHERE name = '\" + name + \"'\"\n3:     return db.execute(query)\n\nThe `name` parameter comes directly from an unauthenticated public search endpoint's query string.",
+    "rules": ["flags_expected_category", "has_all_ten_rows", "has_findings_section", "has_verdict_line"]
+  },
+  {
+    "id": "weak_token_randomness",
+    "expected_category": "A02",
+    "input": "Review this code (auth/reset.py):\n\n1: def generate_reset_token():\n2:     return str(Math.random()).slice(2, 10)\n3:\n4: def send_reset_email(user):\n5:     token = generate_reset_token()\n6:     db.save_reset_token(user.id, token, ttl_minutes=60)\n7:     email.send(user.email, f\"Reset link: /reset?token={token}\")\n\nThis token gates a full password reset with no additional verification.",
+    "rules": ["flags_expected_category", "has_all_ten_rows", "has_findings_section", "has_verdict_line"]
+  },
+  {
+    "id": "cors_wildcard_with_credentials",
+    "expected_category": "A05",
+    "input": "Review this code (server/cors.js):\n\n1: app.use(cors({\n2:   origin: '*',\n3:   credentials: true\n4: }));\n\nThis middleware runs in front of every authenticated API route, including ones that read the session cookie.",
+    "rules": ["flags_expected_category", "has_all_ten_rows", "has_findings_section", "has_verdict_line"]
+  },
+  {
+    "id": "secrets_in_logs",
+    "expected_category": "A09",
+    "input": "Review this code (api/login.py):\n\n1: @app.post(\"/login\")\n2: def login():\n3:     body = request.get_json()\n4:     logger.info(f\"Login attempt: {body}\")\n5:     return authenticate(body[\"email\"], body[\"password\"])\n\n`body` contains the plaintext `password` field submitted by the client, and this log line runs on every request, successful or not.",
+    "rules": ["flags_expected_category", "has_all_ten_rows", "has_findings_section", "has_verdict_line"]
+  },
+  {
+    "id": "ssrf_unvalidated_fetch",
+    "expected_category": "A10",
+    "input": "Review this code (api/webhooks.py):\n\n1: @app.post(\"/preview-url\")\n2: def preview_url():\n3:     target = request.json[\"url\"]\n4:     response = requests.get(target, timeout=5)\n5:     return response.text\n\nThere is no allow-list or scheme/host restriction on `target`, and this runs on a server that also has access to the internal metadata endpoint at 169.254.169.254.",
+    "rules": ["flags_expected_category", "has_all_ten_rows", "has_findings_section", "has_verdict_line"]
+  }
+]

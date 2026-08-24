@@ -1,0 +1,34 @@
+[
+  {
+    "id": "test_coverage_finding",
+    "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: test coverage sits at 31%, there is no coverage gate in continuous integration, and production systems of comparable complexity typically run 40-60% coverage.",
+    "rules": ["mean_sentence_length_le_22", "no_sentence_over_40", "evidence_before_interpretation", "hinge_colon_budget", "semicolon_budget"]
+  },
+  {
+    "id": "deploy_process_finding",
+    "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: deployments are performed manually by one engineer via SSH, there is no rollback procedure, and the last rollback attempt (8 months ago) took over 3 hours to complete.",
+    "rules": ["mean_sentence_length_le_22", "no_sentence_over_40", "evidence_before_interpretation", "hinge_colon_budget", "semicolon_budget"]
+  },
+  {
+    "id": "key_person_finding",
+    "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: one engineer holds sole access to the production database credentials, there is no documented access-handover process, and that engineer is on a rolling month-to-month contract.",
+    "requires_numeric_evidence": false,
+    "rules": ["mean_sentence_length_le_22", "no_sentence_over_40", "evidence_before_interpretation", "hinge_colon_budget", "semicolon_budget"]
+  },
+  {
+    "id": "data_retention_finding",
+    "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: customer personal data is retained indefinitely with no deletion policy, and there is no documented process for handling a data-subject deletion request.",
+    "requires_numeric_evidence": false,
+    "rules": ["mean_sentence_length_le_22", "no_sentence_over_40", "evidence_before_interpretation", "hinge_colon_budget", "semicolon_budget"]
+  },
+  {
+    "id": "long_sentence_temptation",
+    "input": "Write one due-diligence finding paragraph (3-5 sentences) covering ALL of these facts: test coverage is 31%, there is no CI coverage gate, the last three production incidents were caused by untested edge cases, deployments are manual, and there is no rollback procedure. Do not omit any fact.",
+    "rules": ["mean_sentence_length_le_22", "no_sentence_over_40", "hinge_colon_budget", "semicolon_budget"]
+  },
+  {
+    "id": "three_findings_doc",
+    "input": "Write three separate due-diligence findings, one paragraph each, clearly separated by a blank line. Finding 1 facts: passwords are stored in plaintext in the users table. Finding 2 facts: deployments are manual with no rollback procedure. Finding 3 facts: code comment style is inconsistent across the codebase, with no linting rule enforcing a convention.",
+    "rules": ["no_repeated_opening_phrase", "mean_sentence_length_le_22", "no_sentence_over_40"]
+  }
+]

@@ -1,0 +1,194 @@
+{
+  "skill_path": "/workspace/work/SKILL.md",
+  "model": "claude-haiku-4-5",
+  "pass_rate": 0.8333333333333334,
+  "passed": 5,
+  "total": 6,
+  "usage": {
+    "input_tokens": 16860,
+    "output_tokens": 672,
+    "estimated_cost_usd": 0.02022
+  },
+  "cases": [
+    {
+      "id": "test_coverage_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: test coverage sits at 31%, there is no coverage gate in continuous integration, and production systems of comparable complexity typically run 40-60% coverage.",
+      "output": "Test coverage sits at 31%, with no coverage gate in continuous integration. This falls below the 40 to 60% range typical of production systems at comparable complexity. A missing gate means regressions can reach production unchallenged, since no automated check blocks a deployment when coverage drops.",
+      "usage": {
+        "input_tokens": 2801,
+        "output_tokens": 64
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "deploy_process_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: deployments are performed manually by one engineer via SSH, there is no rollback procedure, and the last rollback attempt (8 months ago) took over 3 hours to complete.",
+      "output": "Deployments are performed manually by a single engineer via SSH, with no documented rollback procedure. The most recent rollback attempt, 8 months ago, took over 3 hours to complete. This concentration of deployment authority in one person creates a single point of failure, and the absence of a tested rollback path means an incident cannot be reliably contained. We recommend implementing automated deployment tooling with a documented, regularly exercised rollback procedure.",
+      "usage": {
+        "input_tokens": 2809,
+        "output_tokens": 96
+      },
+      "passed": false,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": false,
+          "detail": "first sentence contains no concrete figure, expected one for this case's facts: 'Deployments are performed manually by a single engineer via SSH, with no documented rollback procedure.'"
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "key_person_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: one engineer holds sole access to the production database credentials, there is no documented access-handover process, and that engineer is on a rolling month-to-month contract.",
+      "output": "The production database credentials are held by a single engineer with no documented handover process, and that engineer operates on a month-to-month contract. If this person were to leave without notice, the company would lose access to its primary data store with no recovery path documented or tested. There is no compensating control. We recommend establishing credential rotation as a standard practice, documenting the handover procedure, and moving the engineer to a longer-term arrangement or distributing credential access before contract renewal.",
+      "usage": {
+        "input_tokens": 2805,
+        "output_tokens": 103
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "data_retention_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: customer personal data is retained indefinitely with no deletion policy, and there is no documented process for handling a data-subject deletion request.",
+      "output": "Customer personal data is retained indefinitely with no deletion policy in place. The company has no documented process for handling data-subject deletion requests. This creates exposure under GDPR, CCPA, and similar regimes where deletion rights are mandatory. Mitigation is not underway.",
+      "usage": {
+        "input_tokens": 2797,
+        "output_tokens": 61
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "long_sentence_temptation",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) covering ALL of these facts: test coverage is 31%, there is no CI coverage gate, the last three production incidents were caused by untested edge cases, deployments are manual, and there is no rollback procedure. Do not omit any fact.",
+      "output": "Test coverage sits at 31%, with no coverage gate in continuous integration. The last 3 production incidents all originated in untested edge cases. Deployments are manual and lack a rollback procedure, meaning a defect can reach customers and persist without a tested path to recovery. This combination\u2014low coverage, no enforcement, and no safe recovery\u2014leaves the system vulnerable to preventable failures.",
+      "usage": {
+        "input_tokens": 2817,
+        "output_tokens": 84
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "three_findings_doc",
+      "input": "Write three separate due-diligence findings, one paragraph each, clearly separated by a blank line. Finding 1 facts: passwords are stored in plaintext in the users table. Finding 2 facts: deployments are manual with no rollback procedure. Finding 3 facts: code comment style is inconsistent across the codebase, with no linting rule enforcing a convention.",
+      "output": "Passwords are stored in plaintext in the users table. This means any database administrator, any developer with read access to production systems, and any attacker who gains database access can immediately use every user credential. There is no compensating control. The company should implement bcrypt or scrypt hashing with a minimum work factor of 12, and audit all accounts for unauthorized access since the database was created.\n\nDeployments are manual with no documented rollback procedure. The most recent incident required 4 hours to restore service, with 2 engineers working in parallel and no clear ownership of rollback steps. This creates risk during both routine deploys and incidents. The company should automate deployment and establish a tested rollback process, starting with a dry-run rollback in staging to confirm the procedure works before the next production deploy.\n\nCode comments lack a consistent style and no linting rule enforces one. Different files use different conventions for comment formatting, capitalization, and placement relative to code. While this is below the standard seen in similar-stage platforms, it does not block feature delivery or create a safety risk. Adopting a style guide and adding an enforcement rule would reduce cognitive load during code review and make the codebase easier for new engineers to navigate.",
+      "usage": {
+        "input_tokens": 2831,
+        "output_tokens": 264
+      },
+      "passed": true,
+      "rules": {
+        "no_repeated_opening_phrase": {
+          "passed": true,
+          "detail": ""
+        },
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    }
+  ]
+}

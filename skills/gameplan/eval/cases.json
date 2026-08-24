@@ -1,0 +1,86 @@
+[
+  {
+    "id": "dark_mode_low",
+    "input": "Add dark mode toggle to settings page. Spec: a boolean setting stored per-user, applied via a CSS class on the root element, with a toggle switch in the existing settings UI. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "expected_min_complexity": "Low",
+    "rules": [
+      "has_complexity",
+      "has_numbered_steps",
+      "steps_reference_files",
+      "has_dependencies_section",
+      "has_risks_with_mitigation"
+    ]
+  },
+  {
+    "id": "csv_export_medium",
+    "input": "Add CSV export to the reports page. Spec: a new export button that streams the current report's rows as a downloadable CSV, respecting the same filters as the on-screen table, across the reports UI, the API route, and a new CSV-serialization utility. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "expected_min_complexity": "Medium",
+    "rules": [
+      "has_complexity",
+      "has_numbered_steps",
+      "steps_reference_files",
+      "has_dependencies_section",
+      "has_risks_with_mitigation"
+    ]
+  },
+  {
+    "id": "auth_rework_high",
+    "input": "Replace the current session-cookie auth system with JWT-based auth across the entire application: new token issuance, refresh flow, middleware changes on every protected route, migration for existing logged-in users, and updated client-side token storage. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "expected_min_complexity": "Medium-High",
+    "rules": [
+      "has_complexity",
+      "has_numbered_steps",
+      "steps_reference_files",
+      "has_dependencies_section",
+      "has_risks_with_mitigation",
+      "flags_high_complexity_appropriately"
+    ]
+  },
+  {
+    "id": "rate_limiting_medium",
+    "input": "Add rate limiting to the public API. Spec: per-API-key limits enforced in middleware, a new rate-limit config table, and 429 responses with a Retry-After header, applied across all public API routes. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "expected_min_complexity": "Medium",
+    "rules": [
+      "has_complexity",
+      "has_numbered_steps",
+      "steps_reference_files",
+      "has_dependencies_section",
+      "has_risks_with_mitigation"
+    ]
+  },
+  {
+    "id": "typo_fix_trivial",
+    "input": "Fix a typo in the error message shown when login fails: 'Invalid credientials' should be 'Invalid credentials'. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "expected_min_complexity": "Low",
+    "rules": [
+      "has_complexity",
+      "has_numbered_steps",
+      "steps_reference_files"
+    ]
+  },
+  {
+    "id": "multi_tenant_migration_high",
+    "input": "Migrate the application from single-tenant to multi-tenant: add a tenant_id column across every table, update every query to scope by tenant, add tenant-aware routing, and write a data migration for existing production rows with zero downtime. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "expected_min_complexity": "High",
+    "rules": [
+      "has_complexity",
+      "has_numbered_steps",
+      "steps_reference_files",
+      "has_dependencies_section",
+      "has_risks_with_mitigation",
+      "flags_high_complexity_appropriately"
+    ]
+  },
+  {
+    "id": "search_autocomplete_medium",
+    "input": "Add autocomplete suggestions to the product search bar, backed by a new debounced API endpoint and a dropdown component in the search UI. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "expected_min_complexity": "Medium",
+    "rules": [
+      "has_complexity",
+      "has_numbered_steps",
+      "steps_reference_files",
+      "has_dependencies_section",
+      "has_risks_with_mitigation"
+    ]
+  }
+]

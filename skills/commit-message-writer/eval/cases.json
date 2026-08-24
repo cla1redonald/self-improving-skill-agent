@@ -1,0 +1,50 @@
+[
+  {
+    "id": "single_file_typo_fix",
+    "files_changed": 1,
+    "input": "Fix a typo in the error message in src/auth/login.py: 'Invalid credientials' should be 'Invalid credentials'.",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases"]
+  },
+  {
+    "id": "multi_file_refactor",
+    "files_changed": 3,
+    "input": "Extract the retry logic duplicated in src/api/client.py, src/api/uploader.py, and src/api/downloader.py into a shared src/api/retry.py helper. No behavior change.",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases", "requires_body_multi_file", "body_line_length_100"]
+  },
+  {
+    "id": "docs_only_update",
+    "files_changed": 1,
+    "input": "Update README.md to document the new --dry-run flag added to the CLI in the last release.",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases"]
+  },
+  {
+    "id": "breaking_api_change",
+    "files_changed": 2,
+    "input": "Change the signature of parse_config(path) to parse_config(path, strict=False) in src/config.py and update the one caller in src/main.py. Existing callers passing a second positional argument will break.",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases", "requires_body_multi_file", "body_line_length_100", "mentions_breaking_change"]
+  },
+  {
+    "id": "dependency_bump",
+    "files_changed": 1,
+    "input": "Bump the requests dependency from 2.31.0 to 2.32.3 in requirements.txt to pick up a security fix (CVE-2024-35195).",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases"]
+  },
+  {
+    "id": "new_feature_multi_file",
+    "files_changed": 4,
+    "input": "Add a --json output flag to the CLI: new flag defined in src/cli.py, new formatter in src/formatters/json_formatter.py, updated src/main.py to wire it in, and added tests in tests/test_cli.py.",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases", "requires_body_multi_file", "body_line_length_100"]
+  },
+  {
+    "id": "sweeping_rename_temptation",
+    "files_changed": 12,
+    "input": "Rename the 'data' variable to 'payload' across 12 files in src/handlers/ for consistency with the rest of the codebase. Purely mechanical, no logic changes.",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases", "requires_body_multi_file", "body_line_length_100"]
+  },
+  {
+    "id": "revert_previous_commit",
+    "files_changed": 1,
+    "input": "Revert commit a1b2c3d ('feat: enable experimental caching layer') because it caused intermittent test failures in CI.",
+    "rules": ["header_type_prefix", "header_length_72", "no_trailing_period_header", "imperative_mood", "no_vague_phrases"]
+  }
+]

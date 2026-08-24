@@ -1,0 +1,69 @@
+[
+  {
+    "id": "two_feature_prd",
+    "input": "PRD: Notification Preferences.\n\nRequirement 1: Users can toggle email notifications on or off per notification type (comments, mentions, weekly digest) from a new settings page.\nRequirement 2: A new backend endpoint stores per-user, per-type notification preferences and is checked before any notification is sent.\nRequirement 3: Existing users default to all notification types enabled (no behavior change on rollout). (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "requirement_keywords": [
+      "toggle",
+      "endpoint",
+      "default"
+    ],
+    "rules": [
+      "has_multiple_threads",
+      "each_thread_has_purpose",
+      "each_thread_has_reasoning_level",
+      "each_thread_has_dependencies_field",
+      "each_thread_has_parallelizable_field",
+      "covers_requirement_keywords"
+    ]
+  },
+  {
+    "id": "three_feature_prd",
+    "input": "PRD: Team Billing.\n\nRequirement 1: Add a 'team' concept \u2014 multiple users can belong to one billing account.\nRequirement 2: Team admins can invite members by email; invited members join the team's billing account on signup.\nRequirement 3: The billing dashboard shows per-seat cost and total team spend.\nRequirement 4: Removing a team member immediately stops billing for that seat. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "requirement_keywords": [
+      "invite",
+      "billing",
+      "remove"
+    ],
+    "rules": [
+      "has_multiple_threads",
+      "each_thread_has_purpose",
+      "each_thread_has_reasoning_level",
+      "each_thread_has_dependencies_field",
+      "each_thread_has_parallelizable_field",
+      "covers_requirement_keywords"
+    ]
+  },
+  {
+    "id": "single_feature_prd",
+    "input": "PRD: Password Reset.\n\nRequirement 1: A user who forgets their password can request a reset link via email.\nRequirement 2: The reset link expires after 1 hour and can only be used once. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "requirement_keywords": [
+      "reset link",
+      "expire"
+    ],
+    "rules": [
+      "has_multiple_threads",
+      "each_thread_has_purpose",
+      "each_thread_has_reasoning_level",
+      "each_thread_has_dependencies_field",
+      "each_thread_has_parallelizable_field"
+    ]
+  },
+  {
+    "id": "dependent_chain_prd",
+    "input": "PRD: CSV Import.\n\nRequirement 1: Define and validate a CSV schema for bulk-importing contacts (name, email, company columns).\nRequirement 2: Build an upload UI that lets a user select a CSV file and preview the first 10 rows before confirming.\nRequirement 3: On confirm, import valid rows and report which rows failed validation and why. This depends on the schema from Requirement 1 and the UI from Requirement 2. (Note: this test environment has no codebase, bash, or file access. Do not attempt to explore files or run commands \u2014 state any needed assumptions explicitly and produce the output directly from the description given.)",
+    "requirement_keywords": [
+      "schema",
+      "preview",
+      "validation"
+    ],
+    "rules": [
+      "has_multiple_threads",
+      "each_thread_has_purpose",
+      "each_thread_has_reasoning_level",
+      "each_thread_has_dependencies_field",
+      "each_thread_has_parallelizable_field",
+      "covers_requirement_keywords",
+      "has_a_real_dependency"
+    ]
+  }
+]

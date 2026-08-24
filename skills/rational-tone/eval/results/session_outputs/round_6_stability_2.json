@@ -1,0 +1,194 @@
+{
+  "skill_path": "/workspace/eval_results/round_7_before.md",
+  "model": "claude-haiku-4-5",
+  "pass_rate": 1.0,
+  "passed": 6,
+  "total": 6,
+  "usage": {
+    "input_tokens": 18084,
+    "output_tokens": 623,
+    "estimated_cost_usd": 0.021199
+  },
+  "cases": [
+    {
+      "id": "test_coverage_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: test coverage sits at 31%, there is no coverage gate in continuous integration, and production systems of comparable complexity typically run 40-60% coverage.",
+      "output": "Test coverage sits at 31%, with no coverage gate in continuous integration. That is below the 40 to 60% typically seen in production systems of this complexity, and it means a regression can reach production unchallenged.",
+      "usage": {
+        "input_tokens": 3005,
+        "output_tokens": 51
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "deploy_process_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: deployments are performed manually by one engineer via SSH, there is no rollback procedure, and the last rollback attempt (8 months ago) took over 3 hours to complete.",
+      "output": "The most recent rollback attempt, 8 months ago, took over 3 hours to complete, and deployments are performed manually by a single engineer via SSH with no documented rollback procedure. This creates a single point of failure with no mitigation underway. A production incident requiring rapid remediation could exceed the company's incident response window, leaving the system in a degraded state longer than business requirements permit.",
+      "usage": {
+        "input_tokens": 3013,
+        "output_tokens": 88
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "key_person_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: one engineer holds sole access to the production database credentials, there is no documented access-handover process, and that engineer is on a rolling month-to-month contract.",
+      "output": "Production database credentials are held by a single engineer with no documented handover process, and that engineer operates under a rolling month-to-month contract. If this person leaves or becomes unavailable, access to the production database cannot be transferred to another team member, and no procedure exists to retrieve or reset the credentials. This creates a critical dependency on one individual, with no mitigation in place.",
+      "usage": {
+        "input_tokens": 3009,
+        "output_tokens": 82
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "data_retention_finding",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) using these facts only: customer personal data is retained indefinitely with no deletion policy, and there is no documented process for handling a data-subject deletion request.",
+      "output": "Customer personal data is retained indefinitely with no documented deletion policy. The company has no process for handling data-subject deletion requests under applicable privacy regulations. This creates exposure to regulatory enforcement action and customer claims, with no compensating control. Establishing a retention schedule and a documented deletion procedure would address both gaps.",
+      "usage": {
+        "input_tokens": 3001,
+        "output_tokens": 65
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "evidence_before_interpretation": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "long_sentence_temptation",
+      "input": "Write one due-diligence finding paragraph (3-5 sentences) covering ALL of these facts: test coverage is 31%, there is no CI coverage gate, the last three production incidents were caused by untested edge cases, deployments are manual, and there is no rollback procedure. Do not omit any fact.",
+      "output": "Test coverage sits at 31%, with no coverage gate in continuous integration. The last 3 production incidents each originated in untested edge cases. Deployments are performed manually with no documented rollback procedure. This combination means a regression can reach production unchallenged, and recovery from a failed deployment depends on manual intervention by engineers with no tested path to restore service.",
+      "usage": {
+        "input_tokens": 3021,
+        "output_tokens": 79
+      },
+      "passed": true,
+      "rules": {
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        },
+        "hinge_colon_budget": {
+          "passed": true,
+          "detail": ""
+        },
+        "semicolon_budget": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    },
+    {
+      "id": "three_findings_doc",
+      "input": "Write three separate due-diligence findings, one paragraph each, clearly separated by a blank line. Finding 1 facts: passwords are stored in plaintext in the users table. Finding 2 facts: deployments are manual with no rollback procedure. Finding 3 facts: code comment style is inconsistent across the codebase, with no linting rule enforcing a convention.",
+      "output": "Passwords are stored in plaintext in the users table. This creates a critical exposure: any database access, whether through application logic, accidental misconfiguration, or a compromised credential, exposes every user credential in the system. No compensating control protects these passwords once an attacker reaches the database, and customer accounts remain at immediate risk of unauthorized access.\n\nDeployments are performed manually without a documented rollback procedure. The team uses SSH to push code changes, with no automation, no staging verification, and no ability to quickly revert a broken release. A regression will reach production users before detection, and recovery will depend on an engineer manually reversing changes under time pressure\u2014a process that has no defined steps, no practiced runbook, and no way to verify success before customer impact accumulates.\n\nComment style is inconsistent across the codebase, with no linting rule enforcing a convention. Developers follow different formats when documenting function intent, parameter use, and complex logic sections. While this falls below the consistency seen in mature codebases, it does not currently impede code review or onboarding at the company's present scale, and the team has existing practices for knowledge transfer that compensate for the variation.",
+      "usage": {
+        "input_tokens": 3035,
+        "output_tokens": 258
+      },
+      "passed": true,
+      "rules": {
+        "no_repeated_opening_phrase": {
+          "passed": true,
+          "detail": ""
+        },
+        "mean_sentence_length_le_22": {
+          "passed": true,
+          "detail": ""
+        },
+        "no_sentence_over_40": {
+          "passed": true,
+          "detail": ""
+        }
+      }
+    }
+  ]
+}
