@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Per-run: upload the skill + eval, start a session, define the outcome, stream it.
 
-Run scripts/setup.py once first. This script is the "every run" half — it
+Run scripts/setup.py once first. This script is the "every run" half: it
 never creates the agent/environment/vault, only reads their IDs from ids.json.
 
 This is a rough, single-purpose event loop, not the reconnect-safe client
@@ -9,7 +9,7 @@ described in shared/managed-agents-client-patterns.md. It's fine for a
 one-shot foreground run; for anything unattended (a dropped connection should
 not orphan the session), build on that pattern instead. Because every tool in
 agent.yaml uses the default always_allow permission policy, there are no
-tool_confirmation round-trips to handle here — if you add always_ask to any
+tool_confirmation round-trips to handle here: if you add always_ask to any
 tool, this loop needs extending.
 
 Usage:
@@ -41,7 +41,7 @@ def main():
     parser.add_argument("--target-pass-rate", type=float, default=0.9)
     parser.add_argument("--max-rounds", type=int, default=8,
                          help="Told to the agent in the outcome description; must match agent.yaml's own "
-                              "stated cap AND rubric.md's criterion 1 exhaustion threshold — a mismatch "
+                              "stated cap AND rubric.md's criterion 1 exhaustion threshold: a mismatch "
                               "here is exactly what made the rational-tone run cost $2 instead of $0.30: "
                               "the agent stopped at its (lower) prompt cap, the grader read the (higher) "
                               "rubric number literally, called it incomplete, and the agent burned extra "
@@ -55,7 +55,7 @@ def main():
                               "this costs roughly one more grader pass.")
     parser.add_argument("--budget-usd", type=float, default=2.0,
                          help="Hard dollar cap on this session's spend (list-price rates). This is a "
-                              "safety ceiling, not the expected cost — see README's cost estimate.")
+                              "safety ceiling, not the expected cost (see README's cost estimate).")
     args = parser.parse_args()
     skill_dir = SKILLS_DIR / args.skill
 
@@ -130,13 +130,13 @@ def main():
 
     out_dir = skill_dir / "eval" / "results" / "session_outputs"
     out_dir.mkdir(parents=True, exist_ok=True)
-    print(f"\nDownloading output files to {out_dir} (may need a retry if empty — brief indexing lag)...")
+    print(f"\nDownloading output files to {out_dir} (may need a retry if empty, brief indexing lag)...")
     # files.list(scope_id=session.id) returns BOTH the uploaded input resources
     # (e.g. the original SKILL.md mounted read-only at session start) and the
-    # agent's /mnt/session/outputs/ deliverables — and an input and an output
+    # agent's /mnt/session/outputs/ deliverables, and an input and an output
     # can share the same filename (SKILL.md in, SKILL.md out). Downloading
     # naively by filename let whichever came later in listing order silently
-    # clobber the other on disk — twice, in opposite directions, across two
+    # clobber the other on disk, twice, in opposite directions, across two
     # live sessions, before this was caught. Keep only the newest file per
     # filename: inputs are uploaded before the session starts, outputs are
     # written during/after, so latest created_at is reliably the real output.

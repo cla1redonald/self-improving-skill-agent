@@ -9,7 +9,7 @@ matching.
 
 import re
 
-# Heading LEVEL (## vs ###) is cosmetic — a downstream parallel-agent consumer
+# Heading LEVEL (## vs ###) is cosmetic: a downstream parallel-agent consumer
 # cares about getting a distinct block with the required fields, not the exact
 # hash count. Numbering starting at 0 vs 1 is likewise not checked here.
 THREAD_HEADING_RE = re.compile(r"^#{2,3}\s*Thread\s*\d+", re.MULTILINE)

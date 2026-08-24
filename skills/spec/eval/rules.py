@@ -3,7 +3,7 @@
 Grades against the skill's own stated template and Exit Criteria: What / Why
 / Success Criteria / Constraints / Out of Scope sections, with success
 criteria that are checkable rather than vague. Does not check the file-write
-or git-commit side effects (Exit Criteria items 4-5) — the eval only ever
+or git-commit side effects (Exit Criteria items 4-5): the eval only ever
 sees the skill's single text response, not a sandboxed repo it can commit
 into, so this grades the content the skill would have written, not whether
 it got written to disk.
@@ -11,7 +11,7 @@ it got written to disk.
 
 import re
 
-# Regex, not literal phrases — an exact-string list missed trivial variants
+# Regex, not literal phrases: an exact-string list missed trivial variants
 # ("work well" vs "works well", "user friendly" vs "user-friendly") during
 # testing against a deliberately vague handwritten example. Un-anchored
 # word-order-flexible patterns catch the family, not just one inflection.

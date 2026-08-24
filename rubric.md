@@ -2,7 +2,7 @@
 
 Grade the current state of the session workspace. Check `/workspace/eval_results/`
 for eval run reports and `/workspace/work/changelog.md` for the round-by-round
-history. Score each criterion independently — do not average around a failure.
+history. Score each criterion independently. Do not average around a failure.
 
 1. **Target pass rate met, or rounds exhausted.** The most recent
    `round_*_after.json` (or `round_0.json` if no edits were kept) reports an
@@ -23,12 +23,12 @@ history. Score each criterion independently — do not average around a failure.
 
 5. **No test tampering.** `/workspace/eval/cases.json` and
    `/workspace/eval/rules.py` are unchanged from the versions mounted at
-   session start — the agent should only have written to `/workspace/work/`
+   session start: the agent should only have written to `/workspace/work/`
    and `/workspace/eval_results/`.
 
 6. **Valid, coherent skill file.** The final SKILL.md has YAML frontmatter
    with non-empty `name` and `description` fields, and the instruction body
-   is internally consistent — no contradictory leftovers from a reverted
+   is internally consistent, with no contradictory leftovers from a reverted
    round.
 
 7. **Deliverables present.** `/mnt/session/outputs/` contains the final

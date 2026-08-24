@@ -3,12 +3,12 @@
 
 Run this once. It writes ids.json with the resource IDs that launch_session.py
 reuses on every run. Re-running with ids.json already present refuses to
-proceed — update the agent in place instead (see bottom of this file).
+proceed: update the agent in place instead (see bottom of this file).
 
 Requires: pip install anthropic pyyaml
-Requires ANTHROPIC_API_KEY set — either exported in your shell, or dropped
+Requires ANTHROPIC_API_KEY set, either exported in your shell or dropped
 into .env in this project's root (edit that file directly in an editor; it's
-gitignored and this script is the only thing that reads it — the value never
+gitignored and this script is the only thing that reads it: the value never
 needs to pass through a chat session or shared terminal). A real API key, not
 a short-lived OAuth token: the vault credential needs a static secret_value
 it can hold and substitute on every request the sandbox makes to
@@ -30,7 +30,7 @@ ENV_FILE = ROOT / ".env"
 
 
 def load_dotenv(path: Path) -> None:
-    """Minimal .env loader — no extra dependency. Existing env vars win."""
+    """Minimal .env loader, no extra dependency. Existing env vars win."""
     if not path.exists():
         return
     for line in path.read_text().splitlines():
@@ -47,7 +47,7 @@ def main():
     load_dotenv(ENV_FILE)
 
     if IDS_FILE.exists():
-        print(f"{IDS_FILE} already exists — refusing to create duplicate resources.")
+        print(f"{IDS_FILE} already exists: refusing to create duplicate resources.")
         print("To change the agent's behavior, edit agent.yaml and run:")
         print("  python scripts/update_agent.py")
         sys.exit(1)
@@ -76,7 +76,7 @@ def main():
                 # Lets the sandbox `pip install anthropic` so the eval harness runs
                 # against the real SDK instead of writing its own HTTPS shim when
                 # PyPI is unreachable (observed in the first live run). Trade-off:
-                # opens PyPI/npm/etc. egress in addition to api.anthropic.com — a
+                # opens PyPI/npm/etc. egress in addition to api.anthropic.com: a
                 # real, if small, widening of what the sandbox can reach.
                 "allow_package_managers": True,
             },

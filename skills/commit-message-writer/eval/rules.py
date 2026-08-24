@@ -2,7 +2,7 @@
 
 Kept mechanical on purpose: the Managed Agents Outcomes docs warn that a
 grader scores each rubric criterion independently, so vague criteria produce
-noisy loops. Same logic applies here — every check is a yes/no structural
+noisy loops. Same logic applies here: every check is a yes/no structural
 test, not a judgment call, so the eval is cheap, fast, and reproducible.
 """
 

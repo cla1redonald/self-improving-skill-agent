@@ -5,16 +5,16 @@ semicolon budgets, evidence-before-interpretation ordering, no repeated
 opening phrases) into regex/structural checks. Two things this deliberately
 does NOT try to grade, because they need judgment a regex can't fake:
 
-- Severity assignment (rule 7) — whether Critical/Significant/Moderate/Mild/
+- Severity assignment (rule 7): whether Critical/Significant/Moderate/Mild/
   Observation was assigned correctly from the evidence. Left out rather than
   faked with a bad heuristic.
 - Section-opening pattern variety (rule 4) and descriptive-vs-evaluative
-  framing (rule 5) — these need multi-section documents to even apply, which
+  framing (rule 5): these need multi-section documents to even apply, which
   single-finding test cases don't produce.
 
 Sentence splitting is a simple heuristic (split on . ! ? followed by
 whitespace/end, with light guards against common abbreviations and decimal
-numbers) — good enough for a rough eval, not a real sentence tokenizer.
+numbers), good enough for a rough eval, not a real sentence tokenizer.
 """
 
 import re
@@ -22,7 +22,7 @@ import re
 ABBREV_GUARD = re.compile(r"\b(?:e\.g|i\.e|etc|vs|Mr|Mrs|Dr|approx)\.$", re.IGNORECASE)
 # Tolerate markdown emphasis markers sitting between the sentence-ending
 # punctuation and the next word ("engineer.** One ..." from a bolded topic
-# sentence) — found live: the naive version missed this split entirely and
+# sentence), found live: the naive version missed this split entirely and
 # treated two sentences as one.
 SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\*{0,2}\s+(?=\*{0,2}[A-Z(\"'])")
 HEADING_LINE_RE = re.compile(r"^\s{0,3}#{1,6}\s+.*$", re.MULTILINE)
@@ -35,7 +35,7 @@ EVALUATIVE_OPENERS = [
 
 
 def _split_sentences(text: str):
-    # Strip markdown headings first — a "# Finding: ..." title line is
+    # Strip markdown headings first: a "# Finding: ..." title line is
     # structural markup, not a prose sentence, and got counted as one live.
     text = HEADING_LINE_RE.sub("", text)
     # Merge lines, split on paragraph breaks first so cross-finding text
@@ -85,7 +85,7 @@ def check_evidence_before_interpretation(message, case):
         return False, f"first sentence opens with an evaluative claim, not a fact: {sentences[0]!r}"
     # Only demand a digit when the case's underlying facts are actually
     # numeric (e.g. "31%"). Some genuine facts aren't ("one engineer holds
-    # sole access") — requiring a number there would fail a correctly-ordered
+    # sole access"), requiring a number there would fail a correctly-ordered
     # finding just for lacking a statistic it was never given.
     if case.get("requires_numeric_evidence", True) and not re.search(r"\d", sentences[0]):
         return False, f"first sentence contains no concrete figure, expected one for this case's facts: {sentences[0]!r}"

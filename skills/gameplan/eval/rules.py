@@ -3,7 +3,7 @@
 Grades against the skill's own template and Exit Criteria: a stated
 complexity level, numbered steps that reference concrete files, a
 dependencies section, and risks with mitigations. Doesn't check the
-file-write/git-commit side effects — same scoping note as the /spec eval.
+file-write/git-commit side effects, same scoping note as the /spec eval.
 """
 
 import re
@@ -36,7 +36,7 @@ def check_has_complexity(message, case):
 
 def _extract_section(message: str, heading: str):
     # Prefix-tolerant on the heading line itself ("## Steps (Sequential...)"
-    # is a reasonable elaboration, not a template violation) — only the
+    # is a reasonable elaboration, not a template violation): only the
     # section body is what gets checked for structure.
     pattern = re.compile(rf"^##\s*{re.escape(heading)}\b[^\n]*\n(.*?)(?:^##\s|\Z)",
                           re.MULTILINE | re.DOTALL | re.IGNORECASE)
@@ -45,8 +45,8 @@ def _extract_section(message: str, heading: str):
 
 
 # The template specifies a numbered list ("1. [Step ...]"), but a "#### Step 1.1"
-# / "#### Phase 2" sub-header scheme conveys the same thing — ordered, concrete,
-# individually addressable steps — just via headers instead of list markers.
+# / "#### Phase 2" sub-header scheme conveys the same thing: ordered, concrete,
+# individually addressable steps, just via headers instead of list markers.
 STEP_ITEM_RE = re.compile(
     r"^\s*(?:\d+\.\s+\S|#{2,5}\s*(?:Step|Phase)\s*\d|#{2,5}\s*\d+[.)]\s+\S)",
     re.MULTILINE | re.IGNORECASE,

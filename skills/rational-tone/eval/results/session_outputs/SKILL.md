@@ -53,7 +53,7 @@ rule, and you need to avoid both at once:
 
 1. *Wrong fact first.* The order facts are listed in a prompt is not a
    drafting order. If any given fact contains a count, a percentage, a
-   duration or a date, that is the fact to open with — even if an
+   duration or a date, that is the fact to open with, even if an
    unquantified fact was mentioned earlier in the brief.
 2. *Wrong format.* Once you've picked the quantified fact, keep the number as
    a numeral ("8 months", "3 hours", "2 engineers"), not spelled out as a
@@ -186,7 +186,7 @@ semicolon chain moves the problem rather than fixing it.
 
 **Short documents round down to zero.** A single finding is typically 3-5
 sentences. One hinge colon in a 4-sentence finding is 25% of it, one in a
-5-sentence finding is 20% — both already blow the 10% budget on their own. Do
+5-sentence finding is 20%. Both already blow the 10% budget on their own. Do
 the arithmetic before you use one: if the piece you are writing has fewer than
 ten sentences total, one hinge colon (or one semicolon sentence) is already
 over budget, so the working target for anything that short is zero of each,

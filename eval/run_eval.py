@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generic eval harness — works for any skill under skills/<name>/.
+"""Generic eval harness: works for any skill under skills/<name>/.
 
 Runs a SKILL.md (used as the system prompt) against every case in that
 skill's cases.json, scores each output with that skill's own rules.py, and
@@ -8,7 +8,7 @@ self-improving-agent-skills project, minus the framework: any Claude API
 call + a JSON report is all that role ever needed to be.
 
 rules.py is loaded dynamically from the cases.json's own directory (or
---rules explicitly) rather than a static `import rules` — a static import
+--rules explicitly) rather than a static `import rules`: a static import
 resolves against the *script's* directory, not the caller's cwd, which broke
 as soon as a second skill's rules.py needed to sit next to a different
 cases.json. This way the same run_eval.py works for every skill unchanged.
@@ -118,7 +118,7 @@ def run_eval(skill_path: str, cases_path: str, model: str, rules_path: Path, max
 
 def print_summary(report: dict) -> None:
     print(f"\n{report['passed']}/{report['total']} cases passed "
-          f"({report['pass_rate']:.0%}) — {report['skill_path']}\n")
+          f"({report['pass_rate']:.0%}): {report['skill_path']}\n")
     usage = report["usage"]
     cost_str = f"${usage['estimated_cost_usd']:.4f}" if usage["estimated_cost_usd"] is not None else "n/a (unlisted model)"
     print(f"  usage: {usage['input_tokens']} input tokens, {usage['output_tokens']} output tokens, "
@@ -209,7 +209,7 @@ def main():
                          help="4000 covers a thorough gameplan for a large migration without "
                               "truncating mid-word (measured: a 'High' complexity case hit exactly "
                               "1500/1500 tokens and cut off mid-sentence at the old default). "
-                              "commit-message-writer barely uses a fraction of this — cheap on "
+                              "commit-message-writer barely uses a fraction of this, cheap on "
                               "Haiku either way. Raise further for very large PRDs.")
     parser.add_argument("--out", help="Where to write the JSON report")
     parser.add_argument("--self-test", action="store_true",

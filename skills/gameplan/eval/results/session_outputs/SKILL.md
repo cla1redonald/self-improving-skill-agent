@@ -61,12 +61,12 @@ last-affirmed: 2026-07-13
 
 The `## Dependencies` and `## Risks` sections are **mandatory in every
 gameplan, no matter how many steps it has.** A gameplan that gets truncated
-before it reaches Risks is an incomplete gameplan — never let step-level
+before it reaches Risks is an incomplete gameplan: never let step-level
 detail crowd out these closing sections.
 
 - Each step should be **1-2 lines**: what to do, the file(s) touched, and why.
   Do not add separate "Dependencies" / "Details" / "Why" sub-bullets under
-  every individual step — that information belongs in the `## Dependencies`
+  every individual step: that information belongs in the `## Dependencies`
   section, not repeated per step.
 - For High or Medium-High complexity plans with many steps, group them under
   phase headers (`### Phase 1: ...`) but keep each step to one line. A 20-step
@@ -75,7 +75,7 @@ detail crowd out these closing sections.
 - If you notice you're running long partway through, immediately compress:
   shorten remaining step descriptions to a single line each, and go
   straight to `## Dependencies` and `## Risks` next. Always finish with all
-  four template sections present (Steps, Dependencies, Risks) — a shorter
+  four template sections present (Steps, Dependencies, Risks): a shorter
   Risks section beats a missing one every time.
 
 ## Anti-Rationalization

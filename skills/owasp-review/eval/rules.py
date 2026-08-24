@@ -3,7 +3,7 @@
 Unlike the other four skills' evals, this one grades correctness, not just
 format: each case plants exactly one known, unambiguous OWASP Top 10
 vulnerability, and the check is whether the skill's output actually flags
-that category as a FINDING (not PASS/N/A) — not whether the prose looks
+that category as a FINDING (not PASS/N/A), not whether the prose looks
 plausible. Format checks (all ten categories covered, a Findings section, a
 verdict line) exist too, but flags_expected_category is the one that matters.
 """
