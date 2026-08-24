@@ -4,6 +4,24 @@
 
 An agent that improves other agents' instructions. Point it at a Claude Agent Skill's `SKILL.md`, a deterministic eval suite, and a target pass rate, and it runs the whole loop itself inside a Managed Agents sandbox: execute the eval, diagnose the failure pattern, apply one targeted edit, re-run, keep the edit or revert it, repeat until an independent grader confirms the target is met or the round budget runs out. Every skill tested here started at a known baseline and ended with a measured, verifiable result: real API calls, real costs, real diffs.
 
+## Quick start
+
+There's no build step. This is a set of Python scripts that call the Anthropic API; nothing runs locally beyond that.
+
+```bash
+git clone https://github.com/cla1redonald/self-improving-skill-agent.git
+cd self-improving-skill-agent
+pip install anthropic pyyaml
+export ANTHROPIC_API_KEY=sk-ant-...   # a real key from console.anthropic.com, see below for why
+
+python scripts/setup.py                                        # once: creates a hosted environment, vault, and agent
+python scripts/launch_session.py --skill rational-tone --target-pass-rate 0.9
+```
+
+`setup.py` doesn't run anything on your machine; it calls the Anthropic API to create three persistent cloud objects and saves their IDs to a local `ids.json`. `launch_session.py` uploads the chosen skill's files, starts a live session on that hosted agent, and streams its work to your terminal as it runs. When it finishes, the improved `SKILL.md`, a full `changelog.md`, and every eval report land in `skills/<name>/eval/results/session_outputs/` for you to review; nothing is applied back to your own skills automatically.
+
+Six skills ship ready to run: `commit-message-writer`, `spec`, `gameplan`, `prd-threads`, `rational-tone`, `owasp-review`. To run it on a skill of your own, see [Testing your own skill](#testing-your-own-skill) below.
+
 ## Architecture
 
 One Managed Agent runs the whole loop inside its own sandboxed container, with bash and file tools:
@@ -28,24 +46,33 @@ skills/<name>/eval/results/       Local test output and real session artifacts
 
 `eval/run_eval.py` is skill-agnostic: it loads `rules.py` dynamically from whichever skill's directory it's pointed at, so the same harness runs every skill in `skills/` unchanged.
 
-## Setup
+## Why a real API key, not a CLI session token
 
-```bash
-pip install anthropic pyyaml
-```
+The self-improvement loop needs a real, long-lived API key: the agent's own sandbox has to call `api.anthropic.com` mid-session through a vault credential, and a vault credential holds a static secret, not something that expires in hours the way a CLI OAuth session does. Create one in the [Console](https://platform.claude.com/settings/keys).
 
-The self-improvement loop needs a real, long-lived API key, not a short-lived CLI session token: the CMA agent's own sandbox has to call `api.anthropic.com` mid-session through a vault credential, and a vault credential holds a static secret, not something that expires in hours. Create a key in the [Console](https://platform.claude.com/settings/keys), then either export it or drop it into a local `.env` file (gitignored):
+`setup.py` refuses to run a second time once `ids.json` exists, so `agent.yaml` changes after the first run go through `agents.update()` instead of creating a second, orphaned agent.
 
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-```
+## Testing your own skill
 
-```bash
-python scripts/setup.py     # once: creates the environment, vault, and agent
-python scripts/launch_session.py --skill rational-tone --target-pass-rate 0.9
-```
+The six included skills are demonstrations, not the point; the eval harness itself is skill-agnostic. To run the loop on your own `SKILL.md`:
 
-`setup.py` refuses to run twice, so `agent.yaml` changes after the first run go through `agents.update()` instead of creating a second orphaned agent.
+1. Create `skills/<yourskill>/SKILL.md`, either your real skill or a copy of it.
+2. Create `skills/<yourskill>/eval/cases.json`, a list of test inputs:
+   ```json
+   [{"id": "case_1", "input": "the prompt your skill would actually receive", "rules": ["rule_a", "rule_b"]}]
+   ```
+3. Create `skills/<yourskill>/eval/rules.py`, deterministic checks the harness scores each case's output against:
+   ```python
+   def check_rule_a(message, case):
+       ok = "required phrase" in message
+       return ok, "" if ok else "missing the required phrase"
+
+   RULES = {"rule_a": check_rule_a}
+   ```
+4. Sanity-check your rules against a few handwritten example strings before spending anything live; `skills/commit-message-writer/eval/rules.py` and its `--self-test` mode in `eval/run_eval.py` are the pattern to copy.
+5. `python scripts/launch_session.py --skill yourskill --target-pass-rate 0.9`
+
+Deterministic, regex-style rules keep the eval free and reproducible, but they take real iteration to get right: several of the six included skills' rule sets went through multiple rounds of "run it live, find a false pass or false fail, fix the regex" before they were trustworthy. Budget for that the first time you write a new one.
 
 ## Results
 
