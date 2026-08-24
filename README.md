@@ -2,18 +2,14 @@
 
 # Self-Improving Skill Agent
 
-A Claude Managed Agents recreation of [`self-improving-agent-skills`](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/agent_skills/self-improving-agent-skills): a single agent, given bash and file tools inside its own sandbox, iterates on a Claude Agent Skill's `SKILL.md` against a deterministic eval suite until it clears a target pass rate or exhausts its round budget. Every skill tested here started at a known baseline and ended with a measured, verifiable result: real API calls, real costs, real diffs.
-
-## Credit
-
-Concept and problem framing (skill folders per the agentskills.io spec, an Executor/Analyst/Mutator improvement loop, keep-only-if-improved scoring) are from [`awesome-llm-apps/agent_skills/self-improving-agent-skills`](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/agent_skills/self-improving-agent-skills) by [Shubham Saboo](https://github.com/Shubhamsaboo), licensed Apache-2.0. This is an independent reimplementation on a different stack (Claude Managed Agents instead of Google ADK, Gemini, and FastAPI); no code from the original is reused here.
+An agent that improves other agents' instructions. Point it at a Claude Agent Skill's `SKILL.md`, a deterministic eval suite, and a target pass rate, and it runs the whole loop itself inside a Managed Agents sandbox: execute the eval, diagnose the failure pattern, apply one targeted edit, re-run, keep the edit or revert it, repeat until an independent grader confirms the target is met or the round budget runs out. Every skill tested here started at a known baseline and ended with a measured, verifiable result: real API calls, real costs, real diffs.
 
 ## Architecture
 
-The original project ran three separate agents (Executor, Analyst, Mutator) coordinated by hand-written orchestration code. This version collapses that into two pieces, both native to the [Managed Agents](https://platform.claude.com) platform:
+One Managed Agent runs the whole loop inside its own sandboxed container, with bash and file tools:
 
-- **One agent, not three.** A single Managed Agent's system prompt walks the same three jobs (run the eval, diagnose the failure pattern, apply one targeted edit) in sequence, sharing one context and one working copy of the skill file. A multiagent roster is the right tool for fan-out work; this is a tight sequential loop over shared file state, which a single agent with sandbox tools handles more reliably.
-- **The Outcomes API replaces the hand-rolled round loop.** A `user.define_outcome` event plus a rubric gives the "keep iterating until an independent grader is satisfied" behavior the original project built by hand. The agent's own system prompt still drives the inner mutate/test/keep-or-revert mechanics; the rubric checks the *result* (target pass rate met, one change per round, no test tampering, no regressions).
+- **A single agent, not a pipeline of specialized ones.** The system prompt walks the agent through running the eval, diagnosing the failure pattern, and applying one targeted edit, all in one context, against one working copy of the skill file. This is a tight sequential loop over shared file state, not a fan-out problem, so one agent with sandbox tools handles it more reliably than a multi-agent roster would.
+- **The Outcomes API owns the "keep iterating until satisfied" behavior.** A `user.define_outcome` event plus a rubric hands the "did this actually meet the bar" call to an independent grader, separate from the agent's own self-assessment. The agent's system prompt drives the inner mutate/test/keep-or-revert mechanics; the rubric checks the result (target pass rate met, one change per round, no test tampering, no regressions).
 - **Deterministic, regex-based grading, not an LLM judge.** Every rule checks something explicit and gradeable (a required section header, a word-count ceiling, a required OWASP finding) rather than asking a model to rate quality. That keeps the eval free to run, reproducible, and immune to grader drift between rounds.
 
 ## Repository layout
@@ -90,6 +86,10 @@ A `budget` field on every session (`--budget-usd`, default $2) is a hard platfor
 
 `rubric.md` said the round-exhaustion clause kicks in after 8 rounds; `agent.yaml`'s own system prompt capped the agent at 4. The rational-tone run hit that mismatch directly: the agent correctly stopped at round 4, the independent grader read the rubric literally, saw only 4 of the stated 8 rounds attempted, and returned `needs_revision`. Fixing the actual bug (syncing the round cap across `agent.yaml`, `rubric.md`, and `launch_session.py`'s default) mattered more than tuning the grader's retry count.
 
+## Credit
+
+The initial idea (skill folders per the agentskills.io spec, an iterate-until-passing improvement loop) traces back to [`self-improving-agent-skills`](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/agent_skills/self-improving-agent-skills) by [Shubham Saboo](https://github.com/Shubhamsaboo) (Apache-2.0). Everything here beyond that starting concept, the architecture, the Outcomes-API-driven loop, the eval design, the six skills, the measured results, is built independently on Claude Managed Agents; no code from the original is reused.
+
 ## License
 
-MIT. See [LICENSE](LICENSE). The original project this is inspired by is licensed Apache-2.0; see [Credit](#credit) above.
+MIT. See [LICENSE](LICENSE).
