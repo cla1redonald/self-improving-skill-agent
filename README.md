@@ -123,6 +123,13 @@ A `budget` field on every session (`--budget-usd`, default $2) is a hard platfor
 
 The initial idea (skill folders per the agentskills.io spec, an iterate-until-passing improvement loop) traces back to [`self-improving-agent-skills`](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/agent_skills/self-improving-agent-skills) by [Shubham Saboo](https://github.com/Shubhamsaboo) (Apache-2.0). Everything here beyond that starting concept, the architecture, the Outcomes-API-driven loop, the eval design, the six skills, the measured results, is built independently on Claude Managed Agents; no code from the original is reused.
 
+## Related work
+
+[`skill-review`](https://github.com/cla1redonald/skill-review) sits at a different point in a
+skill's life: this tool optimizes a skill against your own eval suite, does it do the job well.
+`skill-review` asks a different question, should you trust it at all (its reach, its safety),
+regardless of whether it works. Independent tools; neither depends on the other.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
