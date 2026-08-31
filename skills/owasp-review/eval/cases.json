@@ -2,7 +2,7 @@
   {
     "id": "idor_broken_access_control",
     "expected_category": "A01",
-    "input": "Review this code (api/orders.py):\n\n1: @app.get(\"/orders/<order_id>\")\n2: def get_order(order_id):\n3:     order = db.query(\"SELECT * FROM orders WHERE id = ?\", order_id)\n4:     return jsonify(order)\n\nThere is no session or ownership check anywhere in this handler — any authenticated user can pass any order_id.",
+    "input": "Review this code (api/orders.py):\n\n1: @app.get(\"/orders/<order_id>\")\n2: def get_order(order_id):\n3:     order = db.query(\"SELECT * FROM orders WHERE id = ?\", order_id)\n4:     return jsonify(order)\n\nThere is no session or ownership check anywhere in this handler: any authenticated user can pass any order_id.",
     "rules": ["flags_expected_category", "has_all_ten_rows", "has_findings_section", "has_verdict_line"]
   },
   {

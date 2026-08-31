@@ -23,7 +23,7 @@ last-affirmed: 2026-07-13
 ## Process
 
 1. **Parse the feature description.** Slugify it (e.g., "Add dark mode toggle" -> `dark-mode-toggle`).
-2. **Ask up to 3 clarifying questions** — only if critical information is missing. Prefer inferring from context.
+2. **Ask up to 3 clarifying questions**: only if critical information is missing. Prefer inferring from context.
 3. **Read the codebase.** Check existing patterns, related features, relevant files.
 4. **Write the spec** to `docs/specs/<slug>.md`:
 
@@ -31,20 +31,20 @@ last-affirmed: 2026-07-13
 # Spec: [Feature Name]
 
 ## What
-[What is being built — concrete, not abstract]
+[What is being built: concrete, not abstract]
 
 ## Why
-[Why it matters — user need, business goal, or technical requirement]
+[Why it matters: user need, business goal, or technical requirement]
 
 ## Success Criteria
-- [ ] [Checkable condition — specific enough to verify]
+- [ ] [Checkable condition: specific enough to verify]
 - [ ] [Another checkable condition]
 
 ## Constraints
 [Technical or business constraints that shape the solution]
 
 ## Out of Scope
-[Explicitly excluded — prevents scope creep]
+[Explicitly excluded: prevents scope creep]
 ```
 
 5. **Present the spec** to the user for review.

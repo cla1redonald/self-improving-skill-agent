@@ -38,17 +38,17 @@ last-affirmed: 2026-07-13
 ```markdown
 # Gameplan: [Feature Name]
 
-**Spec:** [path to spec, or "none — working from description"]
+**Spec:** [path to spec, or "none: working from description"]
 **Complexity:** Low | Medium | Medium-High | High
 **Estimated files:** N
 
 ## Steps
-1. [Step — what to do, which files to create/modify, why]
-2. [Step — note dependencies on previous steps]
+1. [Step: what to do, which files to create/modify, why]
+2. [Step: note dependencies on previous steps]
 ...
 
 ## Dependencies
-[Which steps depend on which — informs parallel execution]
+[Which steps depend on which: informs parallel execution]
 
 ## Risks
 [What could go wrong and how to mitigate]
@@ -56,6 +56,27 @@ last-affirmed: 2026-07-13
 
 5. **Present the gameplan** to the user for review.
 6. **Commit** the gameplan file.
+
+## Keep It Concise (especially High complexity)
+
+The `## Dependencies` and `## Risks` sections are **mandatory in every
+gameplan, no matter how many steps it has.** A gameplan that gets truncated
+before it reaches Risks is an incomplete gameplan: never let step-level
+detail crowd out these closing sections.
+
+- Each step should be **1-2 lines**: what to do, the file(s) touched, and why.
+  Do not add separate "Dependencies" / "Details" / "Why" sub-bullets under
+  every individual step: that information belongs in the `## Dependencies`
+  section, not repeated per step.
+- For High or Medium-High complexity plans with many steps, group them under
+  phase headers (`### Phase 1: ...`) but keep each step to one line. A 20-step
+  High-complexity plan should still be shorter overall than a padded 8-step
+  Medium plan.
+- If you notice you're running long partway through, immediately compress:
+  shorten remaining step descriptions to a single line each, and go
+  straight to `## Dependencies` and `## Risks` next. Always finish with all
+  four template sections present (Steps, Dependencies, Risks): a shorter
+  Risks section beats a missing one every time.
 
 ## Anti-Rationalization
 
@@ -82,6 +103,6 @@ last-affirmed: 2026-07-13
 | Problem | Action |
 |---------|--------|
 | No spec and description is vague | Run `/spec` first, then come back |
-| Complexity is High | Flag to user — may need decomposition |
+| Complexity is High | Flag to user: may need decomposition |
 | Can't determine file structure | Read ARCHITECTURE.md or explore codebase more |
 | All steps are sequential | Look for parallel opportunities |

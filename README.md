@@ -126,9 +126,9 @@ The initial idea (skill folders per the agentskills.io spec, an iterate-until-pa
 ## Related work
 
 [`skill-review`](https://github.com/cla1redonald/skill-review) sits at a different point in a
-skill's life: this tool optimizes a skill against your own eval suite, does it do the job well.
-`skill-review` asks a different question, should you trust it at all (its reach, its safety),
-regardless of whether it works. Independent tools; neither depends on the other.
+skill's life: this tool optimizes a skill against your own eval suite, does it do the job well?
+`skill-review` asks a different question: should you trust it at all (its reach, its safety),
+regardless of whether it works? Independent tools; neither depends on the other.
 
 ## License
 

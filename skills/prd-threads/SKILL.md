@@ -79,4 +79,4 @@ last-affirmed: 2026-07-13
 | PRD too vague to thread | Run `/prd-review` first to identify gaps |
 | Thread too large | Split into sub-threads at natural boundaries |
 | Thread too small | Combine with related minimal work |
-| Circular dependencies | Restructure — extract shared setup into thread 0 |
+| Circular dependencies | Restructure: extract shared setup into thread 0 |
