@@ -19,14 +19,14 @@ pip install "anthropic>=0.121.0" pyyaml
 export ANTHROPIC_API_KEY=sk-ant-...   # a real key from console.anthropic.com, see below for why
 
 python scripts/setup.py                                        # once: creates a hosted environment, vault, and agent
-python scripts/launch_session.py --skill rational-tone --target-pass-rate 0.9
+python scripts/launch_session.py --skill gameplan --target-pass-rate 0.9
 ```
 
 `setup.py` doesn't run anything on your machine; it calls the Anthropic API to create three persistent cloud objects and saves their IDs to a local `ids.json`. `launch_session.py` uploads the chosen skill's files, starts a live session on that hosted agent, and streams its work to your terminal as it runs. When it finishes, the improved `SKILL.md`, a full `changelog.md`, and every eval report land in `skills/<name>/eval/results/session_outputs/` for you to review; nothing is applied back to your own skills automatically.
 
 `0.121.0` is a real floor, not a guess: it's the exact version where `sessions.create()` first gained the `budget` and `initial_events` parameters this project depends on (found by bisecting the version history), and `pip install anthropic` with no floor can land you on whatever release predates that if it's already cached locally. Verified working end to end, fresh clone, fresh virtualenv, brand-new agent/environment/vault, against `anthropic` 1.2.0, the current default install.
 
-Six skills ship ready to run: `commit-message-writer`, `spec`, `gameplan`, `prd-threads`, `rational-tone`, `owasp-review`. To run it on a skill of your own, see [Testing your own skill](#testing-your-own-skill) below.
+Five skills ship ready to run: `commit-message-writer`, `spec`, `gameplan`, `prd-threads`, `owasp-review`. To run it on a skill of your own, see [Testing your own skill](#testing-your-own-skill) below.
 
 ## Architecture
 
@@ -86,30 +86,27 @@ Deterministic, regex-style rules keep the eval free and reproducible, but they t
 
 ## Results
 
-Six skills were run through the full live loop: `--model claude-haiku-4-5` for the eval harness (writing a commit message or a due-diligence finding is instruction-following, not judgment, so testing on a cheap, literal model is both cheaper and a better test of whether the instructions are actually explicit), `claude-sonnet-5` at medium effort for the improving agent itself.
+Five skills were run through the full live loop: `--model claude-haiku-4-5` for the eval harness (writing a commit message or a spec is instruction-following, not judgment, so testing on a cheap, literal model is both cheaper and a better test of whether the instructions are actually explicit), `claude-sonnet-5` at medium effort for the improving agent itself.
 
 | Skill | Baseline | Final | Rounds | Cost |
 |---|---|---|---|---|
 | commit-message-writer | 38% | 100% | 2 | $0.51 |
 | gameplan | 86% | 100% | 1 | $0.31 |
-| rational-tone | 50% | 100% (single run) / 83% (10-run average) | 8 | $2.08 |
 | spec | 100% | 100% (no edit needed) | 0 | $0.28 |
 | prd-threads | 100% | 100% (no edit needed) | 0 | $0.32 |
 | owasp-review | 100% | 100% (no edit needed) | 0 | $0.27 |
-| **Total** | | | | **$3.77** |
+| **Total** | | | | **$1.69** |
 
-Three of the six already scored 100% at baseline. In every one of those cases the agent measured that, verified it wasn't a lucky single sample by re-running the eval two or three times, and correctly declined to make a speculative edit rather than manufacturing a change to look productive. That refusal is graded: the rubric explicitly checks that no edit was applied without a diagnosed failure to justify it.
+Three of the five already scored 100% at baseline. In every one of those cases the agent measured that, verified it wasn't a lucky single sample by re-running the eval two or three times, and correctly declined to make a speculative edit rather than manufacturing a change to look productive. That refusal is graded: the rubric explicitly checks that no edit was applied without a diagnosed failure to justify it.
 
 ### What the improvement loop actually found
 
 - **commit-message-writer** had no guidance at all on commit bodies or breaking-change markup. Two rounds added an explicit rule and worked example for each.
 - **gameplan** was truncating its own output: large plans hit the eval's token cap before ever reaching the `## Risks` section. The agent diagnosed this as a verbosity problem, not a missing-instruction problem, and added a "keep it concise" constraint so the closing sections always survive.
-- **rational-tone** had a non-obvious bug: its own "self-check before delivering" section was leaking into the graded output, and that checklist commentary (colon-heavy, by design) was what tripped the very colon-budget rule it was meant to help enforce. The agent traced this to the actual root cause by reading raw model output, not just the failure labels, then rewrote the ambiguous section instead of patching around the symptom.
-- The **rational-tone** run also surfaced a real property of the eval itself: no fixed sampling temperature, so the same final skill scored anywhere from 50% to 100% across ten repeated runs (83% average). Rather than reporting the best single number, the agent ran the stability check unprompted and logged the honest range.
 
 ## Cost
 
-The first version of this defaulted to `claude-opus-5` everywhere at high effort, an 8-round ceiling, and a 4-pass outcome grader: roughly $5 to $12 per session for a task this mechanical. Measured cost with the tuned defaults above landed at $0.27 to $2.08 per skill, all in the table above. Three changes did most of the work:
+The first version of this defaulted to `claude-opus-5` everywhere at high effort, an 8-round ceiling, and a 4-pass outcome grader: roughly $5 to $12 per session for a task this mechanical. Measured cost with the tuned defaults above landed at $0.27 to $0.51 per skill, all in the table above. Three changes did most of the work:
 
 | Change | Why it's safe |
 |---|---|
@@ -121,11 +118,11 @@ A `budget` field on every session (`--budget-usd`, default $2) is a hard platfor
 
 ### A bug the cost tuning surfaced
 
-`rubric.md` said the round-exhaustion clause kicks in after 8 rounds; `agent.yaml`'s own system prompt capped the agent at 4. The rational-tone run hit that mismatch directly: the agent correctly stopped at round 4, the independent grader read the rubric literally, saw only 4 of the stated 8 rounds attempted, and returned `needs_revision`. Fixing the actual bug (syncing the round cap across `agent.yaml`, `rubric.md`, and `launch_session.py`'s default) mattered more than tuning the grader's retry count.
+`rubric.md` said the round-exhaustion clause kicks in after 8 rounds; `agent.yaml`'s own system prompt capped the agent at 4. One live run hit that mismatch directly: the agent correctly stopped at round 4, the independent grader read the rubric literally, saw only 4 of the stated 8 rounds attempted, and returned `needs_revision`. Fixing the actual bug (syncing the round cap across `agent.yaml`, `rubric.md`, and `launch_session.py`'s default) mattered more than tuning the grader's retry count.
 
 ## Credit
 
-The initial idea (skill folders per the agentskills.io spec, an iterate-until-passing improvement loop) traces back to [`self-improving-agent-skills`](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/agent_skills/self-improving-agent-skills) by [Shubham Saboo](https://github.com/Shubhamsaboo) (Apache-2.0). Everything here beyond that starting concept, the architecture, the Outcomes-API-driven loop, the eval design, the six skills, the measured results, is built independently on Claude Managed Agents; no code from the original is reused.
+The initial idea (skill folders per the agentskills.io spec, an iterate-until-passing improvement loop) traces back to [`self-improving-agent-skills`](https://github.com/Shubhamsaboo/awesome-llm-apps/tree/main/agent_skills/self-improving-agent-skills) by [Shubham Saboo](https://github.com/Shubhamsaboo) (Apache-2.0). Everything here beyond that starting concept, the architecture, the Outcomes-API-driven loop, the eval design, the five skills, the measured results, is built independently on Claude Managed Agents; no code from the original is reused.
 
 ## Related work
 

@@ -42,7 +42,7 @@ def main():
     parser.add_argument("--max-rounds", type=int, default=8,
                          help="Told to the agent in the outcome description; must match agent.yaml's own "
                               "stated cap AND rubric.md's criterion 1 exhaustion threshold: a mismatch "
-                              "here is exactly what made the rational-tone run cost $2 instead of $0.30: "
+                              "here has already cost a real run several dollars it didn't need to spend: "
                               "the agent stopped at its (lower) prompt cap, the grader read the (higher) "
                               "rubric number literally, called it incomplete, and the agent burned extra "
                               "rounds reconciling the two. All three must agree.")
