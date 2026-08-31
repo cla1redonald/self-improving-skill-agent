@@ -15,7 +15,7 @@ There's no build step. This is a set of Python scripts that call the Anthropic A
 ```bash
 git clone https://github.com/cla1redonald/self-improving-skill-agent.git
 cd self-improving-skill-agent
-pip install anthropic pyyaml
+pip install "anthropic>=0.121.0" pyyaml
 export ANTHROPIC_API_KEY=sk-ant-...   # a real key from console.anthropic.com, see below for why
 
 python scripts/setup.py                                        # once: creates a hosted environment, vault, and agent
@@ -24,9 +24,13 @@ python scripts/launch_session.py --skill rational-tone --target-pass-rate 0.9
 
 `setup.py` doesn't run anything on your machine; it calls the Anthropic API to create three persistent cloud objects and saves their IDs to a local `ids.json`. `launch_session.py` uploads the chosen skill's files, starts a live session on that hosted agent, and streams its work to your terminal as it runs. When it finishes, the improved `SKILL.md`, a full `changelog.md`, and every eval report land in `skills/<name>/eval/results/session_outputs/` for you to review; nothing is applied back to your own skills automatically.
 
+`0.121.0` is a real floor, not a guess: it's the exact version where `sessions.create()` first gained the `budget` and `initial_events` parameters this project depends on (found by bisecting the version history), and `pip install anthropic` with no floor can land you on whatever release predates that if it's already cached locally. Verified working end to end, fresh clone, fresh virtualenv, brand-new agent/environment/vault, against `anthropic` 1.2.0, the current default install.
+
 Six skills ship ready to run: `commit-message-writer`, `spec`, `gameplan`, `prd-threads`, `rational-tone`, `owasp-review`. To run it on a skill of your own, see [Testing your own skill](#testing-your-own-skill) below.
 
 ## Architecture
+
+A Claude Skill couldn't run this loop on its own: a skill is domain knowledge loaded into whatever session invokes it, with no existence independent of that session. Three things this project needs are Managed Agents primitives, not skill capabilities. An independent grader in its own context window (the Outcomes API), so the thing being tested never marks its own work. A session that survives the client disconnecting: a single eval pass measured at 2m 47s in one real run, a full loop can run for 5 to 10 minutes unattended across a dozen tool calls per round, and a skill tied to an interactive chat ties up that chat for as long as it runs. And a disposable sandbox isolated from wherever the skill is actually invoked from, so a bad mutation round corrupts a throwaway container instead of the user's real working directory. Loaded into an existing Claude Code or Cowork session instead, a skill shares that session's own filesystem and stops existing the moment the session does; none of the three survive that.
 
 One Managed Agent runs the whole loop inside its own sandboxed container, with bash and file tools:
 
